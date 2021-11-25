@@ -1,8 +1,8 @@
 import http from '@/netClient/config';
 
-export async function doRegister(login, password, email) {
+export async function doRegister(email, password) {
     try {
-        const response = await http.post('/auth/reg', {login, password, email});
+        const response = await http.post('/auth/reg', {email, password});
         return response.data;
     } catch(error){
         console.error({error})

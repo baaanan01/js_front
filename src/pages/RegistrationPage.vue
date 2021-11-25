@@ -1,7 +1,7 @@
 <template>
 <div class="form">
   <h1>Зарегистрироваться</h1>
- <form @submit.prevent= "onFormLogin" class = "registration-form auth-form">
+ <form @submit.prevent= "onFormSubmit" class = "registration-form auth-form">
       <div class="form-field">
           <label for="email">Email</label>
           <input v-model = "email" id = "email" type="text" placeholder="Enter your email" class= "input" required>
@@ -30,14 +30,15 @@ export default {
   data:()=> ({
     email: '',
     login: '',
-    password: '',
+    password: ''
   }),
   methods:{
-    async onFormLogin(){
-      try{
-        const data = await doRegister(this.login.trim(), this.password.trim(), this.email.trim())
+    async onFormSubmit(){
+      try {
+        const data = await doRegister(this.email.trim(), this.password.trim())
         console.warn({data});
-      } catch(error) {
+      } 
+      catch(error) {
         console.error({error});
       }
       this.$router.push('/login')
