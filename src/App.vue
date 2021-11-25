@@ -18,7 +18,7 @@ export default {
   components:{MainLayout, AuthLayout},
   computed:{
     layout(){
-      return this.$route.meta?.layout
+      return this.$route.meta?.layout || 'main-layout'
     }
   }
 };

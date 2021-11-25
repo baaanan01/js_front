@@ -1,7 +1,7 @@
 <template>
 <div class = "form">
   <h1>Войти в систему</h1>
-  <form @submit.prevent="onFormSubmit">
+  <form @submit.prevent="onFormSubmit" class="auth-form registration-form">
       <div class="form-field">
           <label for="login">Login</label>
           <input id = "login" type="text" placeholder="Enter your login" class= "input" required>
@@ -22,14 +22,15 @@
 <script>
 export default {
   name: "LoginPage",
-    methods:{
-      onFormSubmit(){
-        this.$router.push('/')
-      },
-      redirect(){
-            this.$router.push('/registration')
-      }
-    }
+  async mounted() {},
+  methods: {
+    redirect() {
+      this.$router.push("/registration");
+    },
+    onFormSubmit() {
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 <style>
