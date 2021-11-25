@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <NavBar/>
-    <transition name="fade" mode="out-in">
-      <router-view/>
-    </transition>
+    <component :is="layout">
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
+    </component>
+    
   </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue'
+import MainLayout from '@/layouts/MainLayout.vue';
+import AuthLayout from '@/layouts/AuthLayout.vue';
+
 export default {
   name: "App",
-  components: {NavBar},
+  components:{MainLayout, AuthLayout},
+  computed:{
+    layout(){
+      return this.$route.meta?.layout
+    }
+  }
 };
 </script>
 

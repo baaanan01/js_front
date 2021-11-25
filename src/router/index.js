@@ -7,26 +7,47 @@ Vue.use(VueRouter) /*регистрируем библиотеку */
 
 const routes = [
     {
-          path: '/',
-          name: 'Home',
-          meta: {
-            title: 'home'
-          },
-          component: () => import('@/pages/Home.vue')
+      path: '/',
+      name: 'Home',
+      meta: {
+        title: 'home',
+        layout: 'main-layout'
+      },
+      component: () => import('@/pages/Home.vue')
         },
     {
       path: '/info',
       name: 'InfoPage', 
       meta: {
-        title: 'Info'
+        title: 'Info',
+        layout: 'main-layout'
       },
       component: () => import('@/pages/InfoPage.vue')
+    },
+    {
+      path:'/login',
+      name: 'LoginPage',
+      meta: {
+        title: 'Login',
+        layout: 'auth-layout'
+      },
+      component: () => import('@/pages/LoginPage.vue')
+    },
+    {
+      path:'/registration',
+      name: 'RegistrationPage',
+      meta: {
+        title: 'Registration',
+        layout: 'auth-layout'
+      },
+      component: () => import('@/pages/RegistrationPage.vue')
     },
     {
       path: "*",
       name: 'Error', 
       meta: {
-        title: 'error'
+        title: 'error',
+        layout: 'main-layout'
       },
       component: () => import('@/pages/404.vue')
     },

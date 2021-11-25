@@ -1,32 +1,47 @@
 <template>
- <form class = "registration-form auth-form">
+<div class="form">
+  <h1>Зарегистрироваться</h1>
+ <form @submit.prevent= "onFormLogin" class = "registration-form auth-form">
       <div class="form-field">
           <label for="email">Email</label>
-          <input id = "email" type="text" required>
+          <input v-model = "email" id = "email" type="text" placeholder="Enter your email" class= "input" required>
       </div>
       <div class="form-field">
           <label for="login">Login</label>
-          <input id = "login" type="text" required>
+          <input v-model = "login" id = "login" type="text" placeholder="Enter your login" class= "input" required>
       </div>
       <div class="form-field">
       <label for="password">Password</label>
-      <input id = "password" type="text" required>
+      <input v-model = "password" id = "password" type="text" class= "input" placeholder="Enter your password" required>
       </div>
       <button class = "submit-btn" type="submit">Регистрация</button>
       <div class="action-link">
-          <span>Есть аккаунт?</span>
+          <span>Есть аккаунт? </span>
           <a @click="redirect" class = "link-btn">Войти</a>
     </div>
   </form>
+</div>
 </template>
 
 <script>
+import {doRegister} from '@/netClient/dataService.js';
 export default {
   name: "RegistrationPage",
-  async mounted(){
-
-  },
+  data:()=> ({
+    email: '',
+    login: '',
+    password: '',
+  }),
   methods:{
+    async onFormLogin(){
+      try{
+        const data = await doRegister(this.login.trim(), this.password.trim(), this.email.trim())
+        console.warn({data});
+      } catch(error) {
+        console.error({error});
+      }
+      this.$router.push('/login')
+    },
       redirect(){
             this.$router.push('/login')
       }
@@ -35,7 +50,7 @@ export default {
 };
 </script>
 <style>
-.hh{
-  text-align: center;
+.password{
+border-style: 1px solid #ccc;
 }
 </style>
