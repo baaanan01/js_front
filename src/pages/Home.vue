@@ -1,32 +1,32 @@
 <template>
   <div class="hello">
     <!-- <h1 class = "hh">New task</h1> -->
-    <section class = "create-todo">
-      <CreateTodo/>
+    <section class="create-todo">
+      <CreateTodo @todo-created="onTodoCreated" />
     </section>
- 
-    <section class='todo-list'>
-     <h1 class = "todoo">To do</h1>
-     <ul>
-        <li 
-        v-for="todoItem in todoList" 
-        :key="todoItem.id" 
-        class="todo-item"
-        :class="{ 'done' : todoItem.isDone }"
+
+    <section class="todo-list">
+      <h1 class="todoo">To do</h1>
+      <ul>
+        <li
+          v-for="todoItem in todoList"
+          :key="todoItem.id"
+          class="todo-item"
+          :class="{ done: todoItem.isDone }"
         >
           <div class="task">
             <div class="title">
               {{ todoItem.title }}
-              </div>
+            </div>
             <div>
-              <input 
-              type="checkbox"
-              class="checkbox" 
-              :checked="todoItem.isDone"
-              @input="onCheckBoxInput(todoItem.id)"
+              <input
+                type="checkbox"
+                class="checkbox"
+                :checked="todoItem.isDone"
+                @input="onCheckBoxInput(todoItem.id, todoItem.isDone)"
               />
-              </div>
-              <button class = "delete">x</button>
+            </div>
+            <button class="delete">x</button>
           </div>
         </li>
       </ul>
@@ -35,35 +35,40 @@
 </template>
 
 <script>
-import {fetchTodoList} from '@/netClient/todoService';
-import CreateTodo from '@/components/CreateTodo';
+import { fetchTodoList, patchTodo } from "@/netClient/todoService";
+import CreateTodo from "@/components/CreateTodo";
 
 export default {
   name: "Hello",
-  components:{CreateTodo},
-  data:() => ({
-    todoList:[],
-    
+  components: { CreateTodo },
+  data: () => ({
+    todoList: [],
+    todoName: '',
   }),
-  async created(){
-    this.fetchTodoList()
+  async created() {
+    this.fetchTodoList();
   },
   methods: {
-    async fetchTodoList(){
-      try{
-        this.todoList = await fetchTodoList();
-     } catch (error){
-       console.error({error})
-     }
-      },
-      onCheckBoxInput(id){
-        const todo = this.todoList.find((item) => item.id === id)
-        todo.isDone = !todo.isDone;
-      },
+    onTodoCreated(createdTodo) {
+      this.todoList.unshift(createdTodo);
     },
-    
+    async fetchTodoList() {
+      try {
+        this.todoList = await fetchTodoList();
+      } catch (error) {
+        console.error({ error });
+      }
+    },
+    async onCheckBoxInput(id, isDone) {
+     try {
+          await patchTodo({ id, isDone: !isDone });
+          this.fetchTodoList()
+     }  catch (error) {
+          console.error({ error });
+     }
+    },
+  },
 };
 </script>
 <style>
-
 </style>

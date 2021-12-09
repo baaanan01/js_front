@@ -32,14 +32,7 @@ export async function doLogout() {
   try {
     const response = await http.post(
       "/user/logout",
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.accessToken,
-        },
-      }
-    );
+      {},);
     localStorage.removeItem("accessToken");
     return response.data;
   } catch (error) {
