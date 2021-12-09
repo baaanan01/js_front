@@ -17,7 +17,7 @@ const routes = [
         },
     {
       path: '/info',
-      name: 'InfoPage', 
+      name: 'info', 
       meta: {
         title: 'Info',
         layout: 'main-layout'
@@ -26,7 +26,7 @@ const routes = [
     },
     {
       path:'/login',
-      name: 'LoginPage',
+      name: 'login',
       meta: {
         title: 'Login',
         layout: 'auth-layout'
@@ -35,7 +35,7 @@ const routes = [
     },
     {
       path:'/registration',
-      name: 'RegistrationPage',
+      name: 'registration',
       meta: {
         title: 'Registration',
         layout: 'auth-layout'
@@ -44,7 +44,7 @@ const routes = [
     },
     {
       path: "*",
-      name: 'Error', 
+      name: 'error', 
       meta: {
         title: 'error',
         layout: 'main-layout'
@@ -60,5 +60,14 @@ const routes = [
     routes
   })
   
+  router.beforeEach((to, from, next) => {
+    const { accessToken } = localStorage;
+    if (accessToken || to.name === 'login' || to.name === 'registration') {
+      next();
+    } else {
+      next('/login')
+    }
+  })
+
   export default router
 

@@ -1,17 +1,44 @@
 <template>
         <div id="nav">
-            <router-link to="/" id="a">To do list</router-link>
-            <router-link to="/info" id="a">Info</router-link>
+            <div class="links">
+                <div class="nav-link">
+                    <router-link to="/" id="a">To do list</router-link>
+                    <router-link to="/info" id="a">Info</router-link>
+                </div>
+                <a @click="onLogoutClicked" class = "logout">Logout</a>
+            </div>
         </div>
-        
 </template>
+
+<script>
+import { doLogout } from "@/netClient/authService";
+export default {
+  name: "NavBar",
+  methods: {
+    async onLogoutClicked() {
+      try {
+        await doLogout();
+        this.$router.push("/login");
+      } catch (error) {
+        console.error({ error });
+      }
+    },
+  },
+};
+</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Inconsolata|Oswald");
 body {
     background: #dbf0eb;
 }
-
+.nav-link{
+    float: left;
+    padding-top:16px;
+}
+.logout{
+    float:right;
+}
 
 #nav {
     position: fixed;

@@ -47,18 +47,3 @@ export async function doLogout() {
     throw error;
   }
 }
-
-export async function fetchTodoList() {
-  try {
-    const response = await http.get("/todos", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.accessToken,
-      },
-    });
-    return response.data?.todos || [];
-  } catch (error) {
-    console.error({ error });
-    throw error;
-  }
-}

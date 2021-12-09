@@ -1,14 +1,14 @@
 <template>
 <div class = "form">
-  <h1>Войти в систему</h1>
+  <h1>Login</h1>
   <form @submit.prevent="onFormSubmit" class="auth-form registration-form">
       <div class="form-field">
-          <label for="login">Login</label>
-          <input id = "login" type="text" placeholder="Enter your login" class= "input" required>
+          <label for="login">Email</label>
+          <input v-model="email" id = "login" type="text" placeholder="Enter your email" class= "input" required>
       </div>
       <div class="form-field">
       <label for="password">Password</label>
-      <input id = "password" type="text" class= "input" placeholder="Enter your password" required>
+      <input v-model="password" id = "password" type="text" class= "input" placeholder="Enter your password" required>
       </div>
       <button class = "submit-btn" type="submit">Войти</button>
       <div class="action-link">
@@ -20,16 +20,35 @@
 </template>
 
 <script>
+import { doLogin } from "@/netClient/authService";
+
 export default {
   name: "LoginPage",
+data: () => ({
+    email:'',
+    password:'',
+  }),
   async mounted() {},
   methods: {
+    async onFormSubmit() {
+      try {
+        const token = await doLogin(
+          this.email.trim(),
+          this.password.trim(),
+        );
+        console.warn({token})
+        if(token) {
+                this.$router.push("/");
+        }
+      } catch (error) {
+        console.error({error});
+        }
+      
+    },
     redirect() {
       this.$router.push("/registration");
     },
-    onFormSubmit() {
-      this.$router.push("/");
-    },
+    
   },
 };
 </script>

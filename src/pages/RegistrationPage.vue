@@ -1,6 +1,6 @@
 <template>
 <div class="form">
-  <h1>Зарегистрироваться</h1>
+  <h1>Registration</h1>
  <form @submit.prevent= "onFormSubmit" class = "registration-form auth-form">
       <div class="form-field">
           <label for="email">Email</label>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { doRegister } from "@/netClient/dataService";
+import { doRegister } from "@/netClient/authService";
 
 export default {
   name: "RegistrationPage",
