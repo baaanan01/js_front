@@ -87,11 +87,7 @@ body{
  margin-right: 16px;
  flex-grow: 1;
 }
-.description{
-  margin-left: auto;
-  color: rgb(5, 153, 0);
-  font-family: 'Courier New', Courier, monospace;
-}
+
 .input_{
   margin: 8px;
 }

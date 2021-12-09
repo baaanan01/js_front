@@ -21,6 +21,15 @@ export async function createTodo({ title }) {
 }
 }
 
+export async function deleteTodo( id ) {
+  try {
+    const response = await http.delete('/todos/'+ id)
+      return response?.data ?? {};
+} catch (error) {
+    console.error({error});
+}
+}
+
 export async function patchTodo({ id, isDone }) {
   try{
       const response = await http.patch('/todos/' + id, {

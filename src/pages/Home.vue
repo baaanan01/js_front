@@ -26,7 +26,7 @@
                 @input="onCheckBoxInput(todoItem.id, todoItem.isDone)"
               />
             </div>
-            <button class="delete">x</button>
+            <button @click="RemoveTodo(todoItem.id)" class="delete">x</button>
           </div>
         </li>
       </ul>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { fetchTodoList, patchTodo } from "@/netClient/todoService";
+import { fetchTodoList, patchTodo, deleteTodo } from "@/netClient/todoService";
 import CreateTodo from "@/components/CreateTodo";
 
 export default {
@@ -52,6 +52,15 @@ export default {
     onTodoCreated(createdTodo) {
       this.todoList.unshift(createdTodo);
     },
+    async RemoveTodo(id) {
+      try {
+          await deleteTodo(id);
+          this.fetchTodoList()
+     }  catch (error) {
+          console.error({ error });
+     }
+    },
+
     async fetchTodoList() {
       try {
         this.todoList = await fetchTodoList();
