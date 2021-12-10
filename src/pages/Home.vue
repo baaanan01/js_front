@@ -2,33 +2,21 @@
   <div class="hello">
     <!-- <h1 class = "hh">New task</h1> -->
     <section class="create-todo">
-      <CreateTodo @todo-created="onTodoCreated" />
+      <CreateTodo @todo-created="onTodoCreated"/>
     </section>
 
     <section class="todo-list">
       <h1 class="todoo">To do</h1>
       <ul>
-        <li
-          v-for="todoItem in todoList"
+      <ToDo v-for="todoItem in todoList"
           :key="todoItem.id"
+          :title="todoItem.title"
+          :id="todoItem.id"
+          :isDone="todoItem.isDone"
           class="todo-item"
           :class="{ done: todoItem.isDone }"
-        >
-          <div class="task">
-            <div class="title">
-              {{ todoItem.title }}
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                class="checkbox"
-                :checked="todoItem.isDone"
-                @input="onCheckBoxInput(todoItem.id, todoItem.isDone)"
-              />
-            </div>
-            <button @click="RemoveTodo(todoItem.id)" class="delete">x</button>
-          </div>
-        </li>
+          @todo-deleted="onTodoDeleted"
+          @todo-checkbox="onTodoCheckbox"/>
       </ul>
     </section>
   </div>
@@ -37,10 +25,11 @@
 <script>
 import { fetchTodoList, patchTodo, deleteTodo } from "@/netClient/todoService";
 import CreateTodo from "@/components/CreateTodo";
+import ToDo from "@/components/ToDo.vue";
 
 export default {
   name: "Hello",
-  components: { CreateTodo },
+  components: { CreateTodo, ToDo },
   data: () => ({
     todoList: [],
     todoName: '',
@@ -50,7 +39,14 @@ export default {
   },
   methods: {
     onTodoCreated(createdTodo) {
-      this.todoList.unshift(createdTodo);
+      console.warn({createdTodo});
+      this.fetchTodoList(createdTodo);
+    },
+    onTodoDeleted(createdTodo) {
+      this.fetchTodoList(createdTodo);
+    },
+      onTodoCheckbox(createdTodo) {
+      this.fetchTodoList(createdTodo);
     },
     async RemoveTodo(id) {
       try {
